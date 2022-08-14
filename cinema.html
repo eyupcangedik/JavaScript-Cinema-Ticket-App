@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+
+  <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #969696;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .movie-container {
+    margin-top: 15px;
+  }
+  .movie-container select {
+    background-color: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-left: 0px;
+    padding: 3px 0px;
+    
+  }
+  .seat {
+    background-color: #bea931;
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .seat.selected {
+    background-color: rgb(255, 0, 0);
+  }
+  .seat.rezerved {
+    background-color: rgb(0, 0, 0);
+  }
+  
+  .left{
+    margin-left: 20px;
+  }
+
+  .right{
+    margin-right: 20px;
+  }
+
+  .seat:not(.rezerved):hover {
+    cursor: pointer;
+  }
+
+  .showcase .seat:not(.rezerved):hover {
+    cursor: default;
+  }
+  .showcase {
+    width: 300px;
+    background-color: rgb(175, 170, 170);
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #777;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .showcase li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 40px;
+  }
+  
+  .row {
+    display: flex;
+  }
+  .screen {
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+    margin: 15px 0;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+  }
+  
+  p.text {
+    margin: 5px 0;
+  }
+  p.text span {
+    color: #6feaf6;
+  }
+  </style>
+  <title>Cinema</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="screen"></div>
+    <div class="row">
+      <div class="seat">1</div>
+      <div class="seat">2</div>
+      <div class="seat left">3</div>
+      <div class="seat">4</div>
+      <div class="seat">5</div>
+      <div class="seat right">6</div>
+      <div class="seat">7</div>
+      <div class="seat">8</div>
+    </div>
+    <div class="row">
+      <div class="seat">9</div>
+      <div class="seat">10</div>
+      <div class="seat left">11</div>
+      <div class="seat">12</div>
+      <div class="seat">13</div>
+      <div class="seat right">14</div>
+      <div class="seat">15</div>
+      <div class="seat">16</div>
+    </div>
+    <div class="row">
+      <div class="seat">17</div>
+      <div class="seat">18</div>
+      <div class="seat left">19</div>
+      <div class="seat">20</div>
+      <div class="seat">21</div>
+      <div class="seat right">22</div>
+      <div class="seat">23</div>
+      <div class="seat">24</div>
+    </div>
+    <div class="row">
+      <div class="seat">25</div>
+      <div class="seat">26</div>
+      <div class="seat left">27</div>
+      <div class="seat">28</div>
+      <div class="seat">29</div>
+      <div class="seat right">30</div>
+      <div class="seat">31</div>
+      <div class="seat">32</div>
+    </div>
+    <div class="row">
+      <div class="seat">33</div>
+      <div class="seat">34</div>
+      <div class="seat left">35</div>
+      <div class="seat">36</div>
+      <div class="seat">37</div>
+      <div class="seat right">38</div>
+      <div class="seat">39</div>
+      <div class="seat">40</div>
+    </div>
+    <div class="row">
+      <div class="seat">41</div>
+      <div class="seat">42</div>
+      <div class="seat left">43</div>
+      <div class="seat">44</div>
+      <div class="seat">45</div>
+      <div class="seat right">46</div>
+      <div class="seat">47</div>
+      <div class="seat">48</div>
+
+    </div>
+
+  </div>
+
+  <div class="movie-container">
+    <label>Select Movie: </label>
+    <select id="movie">
+      <option value="16">The Godfather (16€)</option>
+      <option value="21">Fight Club (21€)</option>
+      <option value="17">Inception (17€)</option>
+    </select>
+  </div>
+
+  <ul class="showcase">
+    <li>
+      <div class="seat"></div>
+      <span style="color: black;">Selectable</span>
+    </li>
+    <li style="margin-left: -20px;">
+      <div class="seat selected"></div>
+      <span style="color:black">Rezerved</span>
+    </li>
+  </ul>
+  <p class="text">You have selected<span id="count">0</span> seats.</p>
+  <p class="text">Total Price: <span id="total">0</span> €</p>
+
+  <script>
+    const container = document.querySelector('.container');
+    const count = document.getElementById('count');
+    const total = document.getElementById('total');
+    const movieSelect = document.getElementById('movie');
+    let ticketPrice = movieSelect.value;
+
+
+    console.log(typeof ticketPrice)
+    console.log(ticketPrice)
+
+    container.addEventListener('click', buy_cancel);
+
+    function buy_cancel(e) {
+      if (e.target.classList.contains('seat')) {
+        e.target.classList.toggle('selected');
+        update_selected();
+      }
+    }
+
+    movieSelect.addEventListener('change', film_select);
+
+    function film_select(e) {
+      ticketPrice = e.target.value;
+      update_selected();
+    }
+
+
+    function update_selected() {
+      const selectedSeats = document.querySelectorAll('.row .seat.selected');
+      const selectedSeatsCount = selectedSeats.length;
+
+      count.innerText = selectedSeatsCount;
+      total.innerText = selectedSeatsCount * ticketPrice;
+
+    }
+  </script>
+</body>
+
+</html>
